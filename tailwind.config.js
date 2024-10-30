@@ -36,6 +36,9 @@ export default {
         900: "#344a74",
         950: "#242e47",
       },
+      error: {
+        "on-light": "#C62828",
+      },
     },
     extend: {
       boxShadow: (() => {

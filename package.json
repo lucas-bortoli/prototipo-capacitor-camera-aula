@@ -12,8 +12,11 @@
     "@capacitor-community/camera-preview": "^6.0.0",
     "@capacitor/android": "^6.1.2",
     "@capacitor/app": "^6.0.1",
+    "@capacitor/camera": "^6.1.0",
     "@capacitor/core": "^6.1.2",
-    "preact": "^10.24.1"
+    "@zxing/browser": "^0.1.5",
+    "preact": "^10.24.1",
+    "qr-scanner": "^1.4.2"
   },
   "devDependencies": {
     "@capacitor/cli": "^6.1.2",

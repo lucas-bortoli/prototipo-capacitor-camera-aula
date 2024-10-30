@@ -6,7 +6,7 @@ const config: CapacitorConfig = {
   webDir: "dist",
   // Usar essa configuração durante desenvolvimento + HMR
   server: {
-    url: "http://192.168.65.150:5173",
+    url: "http://senai:5173",
     cleartext: true,
   },
 };
