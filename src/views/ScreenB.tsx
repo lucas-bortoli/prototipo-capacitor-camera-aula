@@ -6,7 +6,7 @@ export default function ScreenB() {
   const compass = useCompass();
 
   return (
-    <section>
+    <section class="h-full w-full">
       <h1>Screen B</h1>
       <p>My counter: {counter}</p>
       <div class="flex flex-col gap-2">

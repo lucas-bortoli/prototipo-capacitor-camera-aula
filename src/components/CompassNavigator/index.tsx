@@ -90,7 +90,7 @@ export function CompassProvider(props: { children: ComponentChildren }) {
           <section
             key={route.key}
             onAnimationEnd={handleAnimationEndOnRoute.bind(null, route.key)}
-            class={cn("fixed left-0 top-0 h-full w-full bg-white", style.route, animationClass)}>
+            class={cn("bg-white-0 fixed left-0 top-0 h-full w-full", style.route, animationClass)}>
             <route.component {...route.props} />
           </section>
         );
