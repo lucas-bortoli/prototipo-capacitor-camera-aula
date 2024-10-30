@@ -5,6 +5,7 @@ import { ComponentChildren, createContext } from "preact";
 import style from "./style.module.css";
 import { cn } from "../../utils/cn";
 import doSwitch from "../../utils/switch_expression";
+import useBackButton from "./useBackButton";
 
 type RouteKey = Sequence;
 const makeRouteKey = sequence();
@@ -41,6 +42,7 @@ export function CompassProvider(props: { children: ComponentChildren }) {
         state: "entering",
       } satisfies Route<any>;
 
+      console.log("Route push");
       setRouteStack((routeStack) => [...routeStack, route]);
     },
     pop: () => {
@@ -50,6 +52,7 @@ export function CompassProvider(props: { children: ComponentChildren }) {
         return;
       }
 
+      console.log("Route pop");
       setRouteState(targetRoute.key, "leaving");
     },
   };
@@ -68,6 +71,10 @@ export function CompassProvider(props: { children: ComponentChildren }) {
         break;
     }
   }
+
+  useBackButton(() => {
+    requestAnimationFrame(() => compass.pop());
+  });
 
   return (
     <CompassCtx.Provider value={compass}>
