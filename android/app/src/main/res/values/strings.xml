@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
-    <string name="app_name">strata-app</string>
-    <string name="title_activity_main">strata-app</string>
-    <string name="package_name">com.lucasbortoli.strata</string>
-    <string name="custom_url_scheme">com.lucasbortoli.strata</string>
+    <string name="app_name">Protótipo Câmera</string>
+    <string name="title_activity_main">Protótipo Câmera</string>
+    <string name="package_name">com.lucasbortoli.prototipo_camera</string>
+    <string name="custom_url_scheme">com.lucasbortoli.prototipo_camera</string>
 </resources>

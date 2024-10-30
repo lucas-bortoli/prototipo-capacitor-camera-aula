@@ -1,4 +1,4 @@
-package com.lucasbortoli.strata;
+package com.lucasbortoli.prototipo_camera;
 
 import com.getcapacitor.BridgeActivity;
 
