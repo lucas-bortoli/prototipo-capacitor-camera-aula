@@ -1,0 +1,39 @@
+.route {
+}
+
+.routeWhenEntering {
+  animation: AnimationRouteEnter 250ms ease-in-out;
+  pointer-events: none;
+}
+
+.routeWhenNormal {
+}
+
+.routeWhenLeaving {
+  animation: AnimationRouteLeave 250ms ease-in-out;
+  pointer-events: none;
+}
+
+@keyframes AnimationRouteEnter {
+  from {
+    transform: translateX(100lvw);
+    filter: brightness(0);
+  }
+
+  to {
+    transform: translateX(0);
+    filter: brightness(1);
+  }
+}
+
+@keyframes AnimationRouteLeave {
+  from {
+    transform: translateX(0);
+    filter: brightness(1);
+  }
+
+  to {
+    transform: translateX(100lvw);
+    filter: brightness(0);
+  }
+}
