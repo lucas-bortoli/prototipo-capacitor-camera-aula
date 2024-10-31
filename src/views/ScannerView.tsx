@@ -52,10 +52,10 @@ export default function ScannerView(props: ScannerViewProps) {
       <header class="absolute left-0 top-0 flex w-full bg-white-0 p-8">
         <h1 class="text-4xl">Scanner</h1>
       </header>
-      <div class="absolute left-1/2 top-1/2 aspect-square w-3/5 -translate-x-1/2 -translate-y-1/2 border-8 border-dashed border-white-100 bg-white-900 opacity-50"></div>
+      <div class="absolute left-1/2 top-1/2 aspect-square w-2/5 -translate-x-1/2 -translate-y-1/2 border-8 border-dashed border-white-100 bg-white-900 opacity-50"></div>
       <p>O aplicativo precisa de permissões de câmera para funcionar corretamente.</p>
       <div class="flex flex-col items-stretch gap-2">
-        <button class="shadow-pixel-sm rounded-md border-2 border-white-800 bg-white-100 px-4 py-2 font-bold active:translate-x-[2px] active:translate-y-[2px] active:bg-white-200 active:shadow-none">
+        <button class="rounded-md border-2 border-white-800 bg-white-100 px-4 py-2 font-bold shadow-pixel-sm active:translate-x-[2px] active:translate-y-[2px] active:bg-white-200 active:shadow-none">
           Conceder permissões
         </button>
       </div>
