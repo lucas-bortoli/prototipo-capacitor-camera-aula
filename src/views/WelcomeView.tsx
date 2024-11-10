@@ -15,21 +15,6 @@ export default function WelcomeView(props: WelcomeViewProps) {
     }
   }
 
-  async function onToggleCamera() {
-    if (camera.permissionStatus !== "Allowed") {
-      console.warn("Tentou ativar/desativar a câmera sem permissões necessárias.");
-      return;
-    }
-
-    if (!camera.isActive) {
-      const result = await camera.start();
-      console.log("Result:", result);
-    } else {
-      const result = await camera.stop();
-      console.log("Result:", result);
-    }
-  }
-
   useEffect(() => {
     if (camera.permissionStatus === "Allowed") {
       props.goToScanner();
