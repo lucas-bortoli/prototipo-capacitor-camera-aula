@@ -14,8 +14,6 @@ interface CameraContext {
   takePicture: () => Promise<string>;
   checkPermissions: () => Promise<PermissionCheckResult>;
   requestPermissions: () => Promise<PermissionCheckResult>;
-  startVideoRecording: () => Promise<void>;
-  stopVideoRecording: () => Promise<string | null>;
 }
 
 const cameraContext = createContext<CameraContext | null>(null);
@@ -23,9 +21,6 @@ const cameraContext = createContext<CameraContext | null>(null);
 export function CameraProvider(props: { children?: ComponentChildren }) {
   const [permissionStatus, setPermissionStatus] = useState<PermissionCheckResult>("Unknown");
   const [isActive, setActive] = useState(false);
-  const [mediaRecorder, setMediaRecorder] = useState<MediaRecorder | null>(null);
-  const [videoUrl, setVideoUrl] = useState<string | null>(null);
-  const [cameraStream, setCameraStream] = useState<MediaStream | null>(null);
 
   const contextValue: CameraContext = {
     isActive,
@@ -44,10 +39,6 @@ export function CameraProvider(props: { children?: ComponentChildren }) {
           lockAndroidOrientation: true,
         });
 
-        // Obtém o fluxo de mídia da câmera
-        const stream = await navigator.mediaDevices.getUserMedia({ video: true });
-        setCameraStream(stream);
-
         setActive(true);
         return true;
       } catch (error) {
@@ -64,12 +55,6 @@ export function CameraProvider(props: { children?: ComponentChildren }) {
         console.log("Parando câmera...");
         await CameraPreview.stop();
         setActive(false);
-
-        if (cameraStream) {
-          cameraStream.getTracks().forEach(track => track.stop());
-        }
-
-        setCameraStream(null);
         return true;
       } catch (error) {
         console.error("Falha ao parar a câmera", error);
@@ -78,6 +63,7 @@ export function CameraProvider(props: { children?: ComponentChildren }) {
     },
     takePicture: async () => {
       const imageData = await CameraPreview.captureSample({ quality: 60 });
+
       return imageData.value;
     },
     checkPermissions: async () => {
@@ -106,33 +92,6 @@ export function CameraProvider(props: { children?: ComponentChildren }) {
       setPermissionStatus(status);
       return status;
     },
-    startVideoRecording: async () => {
-      if (!cameraStream) {
-        console.error("Câmera não está ativa");
-        return;
-      }
-
-      const recorder = new MediaRecorder(cameraStream);
-      const chunks: BlobPart[] = [];
-
-      recorder.ondataavailable = (event) => {
-        chunks.push(event.data);
-      };
-
-      recorder.onstop = () => {
-        const videoBlob = new Blob(chunks, { type: 'video/webm' });
-        const videoUrl = URL.createObjectURL(videoBlob);
-        setVideoUrl(videoUrl);
-      };
-
-      recorder.start();
-      setMediaRecorder(recorder);
-    },
-    stopVideoRecording: async () => {
-      mediaRecorder?.stop();
-      setMediaRecorder(null);
-      return videoUrl;
-    }
   };
 
   useEffect(() => {

@@ -15,6 +15,7 @@ export default function WelcomeView(props: WelcomeViewProps) {
     }
   }
 
+
   useEffect(() => {
     if (camera.permissionStatus === "Allowed") {
       props.goToScanner();

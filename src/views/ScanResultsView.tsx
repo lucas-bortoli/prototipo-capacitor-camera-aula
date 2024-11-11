@@ -6,7 +6,7 @@ interface ScanResultsViewProps {
 export default function ScanResultsView(props: ScanResultsViewProps) {
   return (
     <section class="flex h-full w-full flex-col gap-2 bg-white-0 p-8">
-      <h1 class="text-4xl">Dados do scann</h1>
+      <h1 class="text-4xl">Dados do scan</h1>
       <textarea readOnly class="h-1/2 w-full border border-white-300 p-8">
         {props.scanContent}
       </textarea>

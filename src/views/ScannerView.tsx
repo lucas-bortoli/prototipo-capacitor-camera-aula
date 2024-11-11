@@ -1,15 +1,14 @@
 import { useEffect, useState } from "preact/hooks";
 import { useCamera } from "../components/CameraContext";
+import { BrowserQRCodeReader } from "@zxing/browser";
 
 interface ScannerViewProps {
-  // Removi a função 'showResultsView' pois não é necessária para este caso
+  showResultsView: (content: string) => void;
 }
 
 export default function ScannerView(props: ScannerViewProps) {
+  const [photo, setPhoto] = useState<string | null>(null);
   const camera = useCamera();
-  const [capturedImage, setCapturedImage] = useState<string | null>(null);
-  const [isRecording, setIsRecording] = useState<boolean>(false);
-  const [videoUrl, setVideoUrl] = useState<string | null>(null);
 
   useEffect(() => {
     camera.start();
@@ -19,59 +18,46 @@ export default function ScannerView(props: ScannerViewProps) {
     };
   }, []);
 
-  const handleCapturePhoto = async () => {
-    console.log("Tirando foto...");
+  const handleTakePhoto = async () => {
+    const reader = new BrowserQRCodeReader();
+
+    console.log("Capturando foto...");
     const imageData = await camera.takePicture();
-    setCapturedImage(imageData);
-    console.log("Foto capturada:", imageData);
-  };
+    setPhoto(imageData); // Store the captured photo
 
-  const handleStartRecording = async () => {
-    console.log("Iniciando gravação de vídeo...");
-    setIsRecording(true);
-    await camera.startVideoRecording();  // Inicia a gravação
-  };
-
-  const handleStopRecording = async () => {
-    console.log("Parando gravação de vídeo...");
-    setIsRecording(false);
-    const videoUrl = await camera.stopVideoRecording();  // Para a gravação e retorna o URL do vídeo
-    setVideoUrl(videoUrl);  // Exibe o vídeo gravado
+    try {
+      console.log("Escaneando...");
+      const result = await reader.decodeFromImageUrl("data:image/jpeg;base64," + imageData);
+      console.log("Dados encontrados:", result);
+      props.showResultsView(result.getText());
+    } catch (error) {
+      console.error("QR Code não encontrado", error);
+    }
   };
 
   return (
     <section class="relative h-full w-full">
-      <header class="absolute left-0 top-0 flex w-full bg-white-0 p-8">
-        <h1 class="text-4xl">Scannerf</h1>
-      </header>
-      <div class="absolute left-1/2 top-1/2 aspect-square w-2/5 -translate-x-1/2 -translate-y-1/2 border-8 border-dashed border-white-100 bg-white-900 opacity-50"></div>
-      <p>O aplicativo precisa de permissões de câmera para funcionar corretamente.</p>
-      <div class="flex flex-col items-stretch gap-2">
+      <header class="absolute left-0 top-0 flex w-full bg-white-0 p-8 z-10">
+        <h1 class="text-4xl">Scanner</h1>
         <button
+          onClick={handleTakePhoto}
           class="rounded-md border-2 border-white-800 bg-white-100 px-4 py-2 font-bold shadow-pixel-sm active:translate-x-[2px] active:translate-y-[2px] active:bg-white-200 active:shadow-none"
-          onClick={handleCapturePhoto}
         >
           Tirar Foto
         </button>
-        <button
-          class="mt-2 rounded-md border-2 border-white-800 bg-white-100 px-4 py-2 font-bold shadow-pixel-sm active:translate-x-[2px] active:translate-y-[2px] active:bg-white-200 active:shadow-none"
-          onClick={isRecording ? handleStopRecording : handleStartRecording}
-        >
-          {isRecording ? "Parar Gravação" : "Gravar Vídeo"}
-        </button>
-        {capturedImage && (
-          <div class="mt-4">
-            <h2>Imagem Capturada:</h2>
-            <img src={`data:image/jpeg;base64,${capturedImage}`} alt="Captured" class="w-full h-auto" />
+      </header>
+
+      <div class="absolute left-1/2 top-1/2 aspect-square w-2/5 -translate-x-1/2 -translate-y-1/2 border-8 border-dashed border-white-100 bg-white-900 opacity-50 z-0"></div>
+
+      <div class="flex flex-col items-center gap-4 mt-20 z-10">
+        {photo && (
+          <div class="photo-preview">
+            <img src={`data:image/jpeg;base64,${photo}`} alt="Captured" />
           </div>
         )}
-        {videoUrl && (
-          <div class="mt-4">
-            <h2>Vídeo Gravado:</h2>
-            <video controls src={videoUrl} class="w-full h-auto"></video>
-          </div>
-        )}
+        
       </div>
+      
     </section>
   );
 }
