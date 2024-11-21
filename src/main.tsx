@@ -1,7 +1,5 @@
 import { render } from "preact";
 import "./index.css";
-import RootScreen from "./views/WelcomeView.tsx";
-import { CompassProvider } from "./components/CompassNavigator";
 import { CameraProvider } from "./components/CameraContext/index.tsx";
 import { useState } from "preact/hooks";
 import WelcomeView from "./views/WelcomeView.tsx";

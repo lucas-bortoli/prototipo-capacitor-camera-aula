@@ -5,10 +5,11 @@ const config: CapacitorConfig = {
   appName: "Protótipo Câmera",
   webDir: "dist",
   // Usar essa configuração durante desenvolvimento + HMR
-  server: {
-    url: "http://senai:5173",
-    cleartext: true,
-  },
+  // trocar o http pelo ip do pc
+  //server: {
+  //  url: "192.168.0.49:5173",
+  //  cleartext: true,
+  //},
 };
 
 export default config;
